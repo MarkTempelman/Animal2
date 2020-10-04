@@ -8,6 +8,7 @@ public class AnimalSerializer {
 
     public static void saveAnimal(Animal animal){
         String path = "src/main/java/Data/animal.ser";
+
         ObjectOutputStream out;
         try {
             FileOutputStream fileOut =
