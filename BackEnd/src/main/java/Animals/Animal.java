@@ -3,6 +3,7 @@ package Animals;
 import Serialization.AnimalSerializer;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public abstract class Animal {
 
@@ -23,7 +24,7 @@ public abstract class Animal {
         return getName() + ", " + getGender() + ", " + reserved;
     }
 
-    public static Animal getAnimal(){
-        return AnimalSerializer.getAnimal();
+    public static ArrayList<Animal> getAnimal(){
+        return AnimalSerializer.getAnimals();
     }
 }

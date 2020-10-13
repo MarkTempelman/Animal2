@@ -3,44 +3,43 @@ package Serialization;
 import Animals.Animal;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class AnimalSerializer {
 
     public static void saveAnimal(Animal animal){
-        String path = "src/main/java/Data/animal.ser";
+        ArrayList<Animal> animals = new ArrayList<>();
+        animals.add(animal);
 
-        ObjectOutputStream out;
-        try {
-            FileOutputStream fileOut =
-                    new FileOutputStream(path);
-            if(Helper.doesFileExist(path)){
-                out = new AppendingObjectOutputStream(fileOut);
-            } else {
-                out = new ObjectOutputStream(fileOut);
-            }
-            out.writeObject(animal);
-            out.close();
-            fileOut.close();
-            System.out.print("Serialized data is saved in " + path);
-        } catch (IOException i) {
-            i.printStackTrace();
+        File f = new File("animalData");
+        if(f.exists()){
+            animals.addAll(getAnimals());
+        }
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream("animalData");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(animals);
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (IOException ioException){
+            ioException.printStackTrace();
         }
     }
 
-    public static Animal getAnimal(){
-        Animal animal = null;
+    public static ArrayList<Animal> getAnimals(){
+        ArrayList<Animal> animals = new ArrayList<>();
         try{
-            FileInputStream fileIn = new FileInputStream("src/main/java/Data/animal.ser");
-            ObjectInputStream in = new ObjectInputStream((fileIn));
-            animal = (Animal) in.readObject();
-            in.close();
-            fileIn.close();
+            FileInputStream fileInputStream = new FileInputStream("animalData");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            animals = (ArrayList) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
         } catch (IOException i) {
             i.printStackTrace();
         } catch (ClassNotFoundException c) {
             System.out.println("animal class not found");
             c.printStackTrace();
         }
-        return animal;
+        return animals;
     }
 }

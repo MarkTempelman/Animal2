@@ -1,5 +1,6 @@
 package FUN;
 
+import Animals.Animal;
 import Animals.Dog;
 import Animals.Gender;
 import Animals.TempTestClass;
@@ -12,10 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -68,6 +66,15 @@ public class App extends Application {
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 1, 4);
+
+        ListView listView = new ListView();
+
+        for (Animal animal : Animal.getAnimal()) {
+            listView.getItems().add(animal.getName());
+        }
+
+        HBox hbox = new HBox(listView);
+        grid.add(hbox, 1, 5);
 
         btn.setOnAction(actionEvent -> new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString())));
 
