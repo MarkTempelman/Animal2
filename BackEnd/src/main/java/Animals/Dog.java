@@ -18,7 +18,6 @@ public class Dog extends Animal implements java.io.Serializable{
         _gender = gender;
         _lastWalk = LocalDateTime.now();
         _id = UUID.randomUUID().toString();
-        AnimalSerializer.saveAnimal(this);
     }
 
     public LocalDateTime getLastWalk(){

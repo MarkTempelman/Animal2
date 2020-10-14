@@ -76,6 +76,7 @@ public class App extends Application {
 
         btn.setOnAction(actionEvent -> {
             Animal dog = new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()));
+            AnimalSerializer.saveAnimal(dog);
             animals.add(dog);
         });
 
