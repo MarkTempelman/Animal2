@@ -6,6 +6,7 @@ import Animals.Gender;
 import Animals.TempTestClass;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.Console;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -31,12 +33,16 @@ import java.util.Arrays;
 public class App extends Application {
 
     private static Scene scene;
+    GridPane grid = new GridPane();
+
+    private ObservableList<Animal> animals = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage stage) throws IOException {
         //scene = new Scene(loadFXML("primary"));
 
-        GridPane grid = new GridPane();
+        animals.addAll(Animal.getAnimal());
+        //GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
@@ -67,16 +73,14 @@ public class App extends Application {
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 1, 4);
 
-        ListView listView = new ListView();
+        ListView listView = new ListView(animals);
 
-        for (Animal animal : Animal.getAnimal()) {
-            listView.getItems().add(animal.getName());
-        }
+        grid.add(listView, 1, 5);
 
-        HBox hbox = new HBox(listView);
-        grid.add(hbox, 1, 5);
-
-        btn.setOnAction(actionEvent -> new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString())));
+        btn.setOnAction(actionEvent -> {
+            Animal dog = new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()));
+            animals.add(dog);
+        });
 
         stage.setScene(scene);
         stage.show();
