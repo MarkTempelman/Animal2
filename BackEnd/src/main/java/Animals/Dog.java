@@ -3,6 +3,7 @@ package Animals;
 import Serialization.AnimalSerializer;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Dog extends Animal implements java.io.Serializable{
     private LocalDateTime _lastWalk;
@@ -10,11 +11,13 @@ public class Dog extends Animal implements java.io.Serializable{
     private String _name;
     private Gender _gender;
     private Reservor _reservedBy;
+    private String _id;
 
     public Dog(String name, Gender gender) {
         _name = name;
         _gender = gender;
         _lastWalk = LocalDateTime.now();
+        _id = UUID.randomUUID().toString();
         AnimalSerializer.saveAnimal(this);
     }
 
@@ -29,6 +32,11 @@ public class Dog extends Animal implements java.io.Serializable{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String id() {
+        return _id;
     }
 
     @Override

@@ -3,7 +3,7 @@ package Animals;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Reservor {
+public class Reservor implements java.io.Serializable{
     private String _name;
     private LocalDateTime _reservedAt;
 

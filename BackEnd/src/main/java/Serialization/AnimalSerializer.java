@@ -26,6 +26,18 @@ public class AnimalSerializer {
         }
     }
 
+    public static void saveAllAnimals(ArrayList<Animal> animals){
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream("animalData");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(animals);
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (IOException ioException){
+            ioException.printStackTrace();
+        }
+    }
+
     public static ArrayList<Animal> getAnimals(){
         ArrayList<Animal> animals = new ArrayList<>();
         try{

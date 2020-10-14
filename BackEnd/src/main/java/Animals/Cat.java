@@ -21,6 +21,11 @@ public class Cat extends Animal implements java.io.Serializable{
     }
 
     @Override
+    public String id() {
+        return null;
+    }
+
+    @Override
     public String getName() {
         return _name;
     }

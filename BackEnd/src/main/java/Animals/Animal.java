@@ -15,6 +15,8 @@ public abstract class Animal {
 
     abstract public Boolean reserve(String reservedBy);
 
+    abstract public String id();
+
     @Override
     public String toString(){
         String reserved = "not reserved";

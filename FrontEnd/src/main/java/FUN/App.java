@@ -4,6 +4,7 @@ import Animals.Animal;
 import Animals.Dog;
 import Animals.Gender;
 import Animals.TempTestClass;
+import Serialization.AnimalSerializer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,7 +48,7 @@ public class App extends Application {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        scene = new Scene(grid, 300, 300);
+        scene = new Scene(grid, 500, 500);
 
         Text title = new Text("Animal Shelter");
         title.setFont(Font.font("Arial", FontWeight.NORMAL,20));
@@ -67,19 +68,34 @@ public class App extends Application {
         grid.add(genderCB, 1, 2);
 
         Button btn = new Button("Add animal");
-        HBox hbBtn = new HBox(10);
-
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 4);
+        grid.add(btn, 1, 3);
 
         ListView listView = new ListView(animals);
 
-        grid.add(listView, 1, 5);
+        grid.add(listView, 1, 4, 2, 3);
 
         btn.setOnAction(actionEvent -> {
             Animal dog = new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()));
             animals.add(dog);
+        });
+
+        Label reservorName = new Label("Name:");
+        grid.add(reservorName, 0, 8);
+
+        TextField reservorTextField = new TextField();
+        grid.add(reservorTextField, 1, 8);
+
+        Button reservorBtn = new Button("Reserve");
+
+        grid.add(reservorBtn, 1, 9);
+
+        reservorBtn.setOnAction(actionEvent -> {
+            int index = listView.getSelectionModel().getSelectedIndex();
+            animals.get(index).reserve(reservorTextField.getText());
+            ArrayList<Animal> exportAnimals = new ArrayList<>();
+            exportAnimals.addAll(animals);
+            AnimalSerializer.saveAllAnimals(exportAnimals);
+            listView.refresh();
         });
 
         stage.setScene(scene);
