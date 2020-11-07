@@ -5,9 +5,9 @@ import Animals.Animal;
 import java.io.*;
 import java.util.ArrayList;
 
-public class AnimalSerializer {
+public class AnimalSerializer implements IAnimalSerializer{
 
-    public static void saveAnimal(Animal animal){
+    public void saveAnimal(Animal animal){
         ArrayList<Animal> animals = new ArrayList<>();
         animals.add(animal);
 
@@ -26,7 +26,7 @@ public class AnimalSerializer {
         }
     }
 
-    public static void saveAllAnimals(ArrayList<Animal> animals){
+    public void saveAllAnimals(ArrayList<Animal> animals){
         try{
             FileOutputStream fileOutputStream = new FileOutputStream("animalData");
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -38,7 +38,7 @@ public class AnimalSerializer {
         }
     }
 
-    public static ArrayList<Animal> getAnimals(){
+    public ArrayList<Animal> getAnimals(){
         ArrayList<Animal> animals = new ArrayList<>();
         try{
             FileInputStream fileInputStream = new FileInputStream("animalData");

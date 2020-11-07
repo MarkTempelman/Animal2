@@ -1,5 +1,7 @@
 package Animals;
 
+import Serialization.IAnimalSerializer;
+
 public class Cat extends Animal implements java.io.Serializable{
     private String _badHabits;
 

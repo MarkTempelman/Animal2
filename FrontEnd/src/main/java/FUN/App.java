@@ -2,6 +2,7 @@ package FUN;
 
 import Animals.*;
 import Serialization.AnimalSerializer;
+import Serialization.IAnimalSerializer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +28,7 @@ public class App extends Application {
 
     private static Scene scene;
     GridPane grid = new GridPane();
+    private IAnimalSerializer animalSerializer = new AnimalSerializer();
 
     private ObservableList<Animal> animals = FXCollections.observableArrayList();
 
@@ -34,7 +36,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         //scene = new Scene(loadFXML("primary"));
 
-        animals.addAll(Animal.getAnimals());
+        animals.addAll(Animal.getAnimals(animalSerializer));
         //GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -81,13 +83,12 @@ public class App extends Application {
         btn.setOnAction(actionEvent -> {
             Animal animal;
             if(animalTypeCB.getValue() == "Dog"){
-                animal = new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()));
+                animal = new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()), animalSerializer);
             } else {
                 animal = new Cat(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()), badHabitsTextField.getText());
             }
             animal.setPrice(animal.calculatePrice());
-
-            AnimalSerializer.saveAnimal(animal);
+            animalSerializer.saveAnimal(animal);
             animals.add(animal);
         });
 
@@ -106,7 +107,7 @@ public class App extends Application {
             animals.get(index).reserve(reservorTextField.getText());
             ArrayList<Animal> exportAnimals = new ArrayList<>();
             exportAnimals.addAll(animals);
-            AnimalSerializer.saveAllAnimals(exportAnimals);
+            animalSerializer.saveAllAnimals(exportAnimals);
             listView.refresh();
         });
 

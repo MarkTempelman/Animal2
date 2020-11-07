@@ -1,6 +1,7 @@
 package Animals;
 
 import Serialization.AnimalSerializer;
+import Serialization.IAnimalSerializer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,12 +16,14 @@ public class Dog extends Animal implements java.io.Serializable{
     private Reservor _reservedBy;
     private String _id;
     private double _price;
+    private IAnimalSerializer _animalSerializer;
 
-    public Dog(String name, Gender gender) {
+    public Dog(String name, Gender gender, IAnimalSerializer animalSerializer) {
         _name = name;
         _gender = gender;
         _lastWalk = LocalDateTime.now();
         _id = UUID.randomUUID().toString();
+        _animalSerializer = animalSerializer;
     }
 
     public LocalDateTime getLastWalk(){
@@ -58,7 +61,7 @@ public class Dog extends Animal implements java.io.Serializable{
 
     @Override
     public double calculatePrice() {
-        ArrayList<Animal> animals = (ArrayList<Animal>) Animal.getAnimals().stream().filter(
+        ArrayList<Animal> animals = (ArrayList<Animal>) Animal.getAnimals(_animalSerializer).stream().filter(
                 x -> x.getClass().getName() == this.getClass().getName())
                 .collect(Collectors.toList());
         double currentPrice = 500 - (50 * animals.size());

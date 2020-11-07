@@ -1,6 +1,7 @@
 package Animals;
 
 import Serialization.AnimalSerializer;
+import Serialization.IAnimalSerializer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public abstract class Animal implements ISellable {
         return getName() + ", " + getGender() + ", " + reserved + ", " + getPrice();
     }
 
-    public static ArrayList<Animal> getAnimals(){
-        return AnimalSerializer.getAnimals();
+    public static ArrayList<Animal> getAnimals(IAnimalSerializer animalSerializer){
+        return animalSerializer.getAnimals();
     }
 }
