@@ -3,7 +3,9 @@ package Animals;
 import Serialization.AnimalSerializer;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Dog extends Animal implements java.io.Serializable{
     private LocalDateTime _lastWalk;
@@ -12,6 +14,7 @@ public class Dog extends Animal implements java.io.Serializable{
     private Gender _gender;
     private Reservor _reservedBy;
     private String _id;
+    private double _price;
 
     public Dog(String name, Gender gender) {
         _name = name;
@@ -36,6 +39,31 @@ public class Dog extends Animal implements java.io.Serializable{
     @Override
     public String id() {
         return _id;
+    }
+
+    @Override
+    public double getPrice() {
+        return _price;
+    }
+
+    @Override
+    public void setPrice(double price) {
+        _price = price;
+    }
+
+    @Override
+    public void setName(String name) {
+        _name = name;
+    }
+
+    @Override
+    public double calculatePrice() {
+        ArrayList<Animal> animals = (ArrayList<Animal>) Animal.getAnimals().stream().filter(
+                x -> x.getClass().getName() == this.getClass().getName())
+                .collect(Collectors.toList());
+        double currentPrice = 500 - (50 * animals.size());
+        if(currentPrice < 50) return 50;
+        return currentPrice;
     }
 
     @Override

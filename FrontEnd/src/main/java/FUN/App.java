@@ -1,15 +1,10 @@
 package FUN;
 
-import Animals.Animal;
-import Animals.Dog;
-import Animals.Gender;
-import Animals.TempTestClass;
+import Animals.*;
 import Serialization.AnimalSerializer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,16 +12,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * JavaFX App
@@ -42,7 +34,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         //scene = new Scene(loadFXML("primary"));
 
-        animals.addAll(Animal.getAnimal());
+        animals.addAll(Animal.getAnimals());
         //GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -67,28 +59,47 @@ public class App extends Application {
         ChoiceBox genderCB = new ChoiceBox(FXCollections.observableArrayList("Male", "Female"));
         grid.add(genderCB, 1, 2);
 
+        Label animalType = new Label("Animal type:");
+        grid.add(animalType, 0,3);
+
+        ChoiceBox animalTypeCB = new ChoiceBox(FXCollections.observableArrayList("Dog", "Cat"));
+        grid.add(animalTypeCB, 1, 3);
+
+        Label badHabits = new Label("Bad habits:");
+        grid.add(badHabits, 0, 4);
+
+        TextField badHabitsTextField = new TextField();
+        grid.add(badHabitsTextField, 1, 4);
+
         Button btn = new Button("Add animal");
-        grid.add(btn, 1, 3);
+        grid.add(btn, 1, 5);
 
         ListView listView = new ListView(animals);
 
-        grid.add(listView, 1, 4, 2, 3);
+        grid.add(listView, 1, 6, 2, 3);
 
         btn.setOnAction(actionEvent -> {
-            Animal dog = new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()));
-            AnimalSerializer.saveAnimal(dog);
-            animals.add(dog);
+            Animal animal;
+            if(animalTypeCB.getValue() == "Dog"){
+                animal = new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()));
+            } else {
+                animal = new Cat(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()), badHabitsTextField.getText());
+            }
+            animal.setPrice(animal.calculatePrice());
+
+            AnimalSerializer.saveAnimal(animal);
+            animals.add(animal);
         });
 
         Label reservorName = new Label("Name:");
-        grid.add(reservorName, 0, 8);
+        grid.add(reservorName, 0, 10);
 
         TextField reservorTextField = new TextField();
-        grid.add(reservorTextField, 1, 8);
+        grid.add(reservorTextField, 1, 10);
 
         Button reservorBtn = new Button("Reserve");
 
-        grid.add(reservorBtn, 1, 9);
+        grid.add(reservorBtn, 1, 11);
 
         reservorBtn.setOnAction(actionEvent -> {
             int index = listView.getSelectionModel().getSelectedIndex();
