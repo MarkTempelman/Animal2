@@ -40,6 +40,10 @@ public class AnimalSerializer implements IAnimalSerializer{
 
     public ArrayList<Animal> getAnimals(){
         ArrayList<Animal> animals = new ArrayList<>();
+        File f = new File("animalData");
+        if(!f.exists()){
+           return animals;
+        }
         try{
             FileInputStream fileInputStream = new FileInputStream("animalData");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);

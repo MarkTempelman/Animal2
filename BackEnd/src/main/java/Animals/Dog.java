@@ -16,7 +16,7 @@ public class Dog extends Animal implements java.io.Serializable{
     private Reservor _reservedBy;
     private String _id;
     private double _price;
-    private IAnimalSerializer _animalSerializer;
+    private transient IAnimalSerializer _animalSerializer;
 
     public Dog(String name, Gender gender, IAnimalSerializer animalSerializer) {
         _name = name;
