@@ -1,7 +1,9 @@
 package FUN;
 
 import Animals.*;
+import Helpers.PriceHelper;
 import Serialization.AnimalSerializer;
+import Serialization.Helper;
 import Serialization.IAnimalSerializer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -34,8 +36,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        PriceHelper.setAnimalSerializer(animalSerializer);
         //scene = new Scene(loadFXML("primary"));
-
         animals.addAll(Animal.getAnimals(animalSerializer));
         //GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -83,7 +85,7 @@ public class App extends Application {
         btn.setOnAction(actionEvent -> {
             Animal animal;
             if(animalTypeCB.getValue() == "Dog"){
-                animal = new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()), animalSerializer);
+                animal = new Dog(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()));
             } else {
                 animal = new Cat(nameTextField.getText(), Gender.valueOf(genderCB.getValue().toString()), badHabitsTextField.getText());
             }

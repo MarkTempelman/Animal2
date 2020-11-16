@@ -1,5 +1,6 @@
 package Animals;
 
+import Helpers.PriceHelper;
 import Serialization.IAnimalSerializer;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,8 @@ public class AnimalTest {
     @Before
     public void setUp() {
         animalSerializer = new MockAnimalSerializer();
-        this.animal = new Dog("Ugly Duckling", Gender.Male, animalSerializer);
+        this.animal = new Dog("Ugly Duckling", Gender.Male);
+        PriceHelper.setAnimalSerializer(animalSerializer);
     }
 
     @Test
@@ -81,7 +83,7 @@ public class AnimalTest {
     public void TestCalculateDogPriceSecondDog(){
         double expected = 450;
         animalSerializer.saveAnimal(animal);
-        Animal dog = new Dog("name", Gender.Male, animalSerializer);
+        Animal dog = new Dog("name", Gender.Male);
         double actual = dog.calculatePrice();
         assertEquals(expected, actual, 0.1);
     }
@@ -91,9 +93,9 @@ public class AnimalTest {
         double expected = 400;
 
         animalSerializer.saveAnimal(animal);
-        Animal dog1 = new Dog("name", Gender.Male, animalSerializer);
+        Animal dog1 = new Dog("name", Gender.Male);
         animalSerializer.saveAnimal(dog1);
-        Animal dog2 = new Dog("name", Gender.Male, animalSerializer);
+        Animal dog2 = new Dog("name", Gender.Male);
 
         double actual = dog2.calculatePrice();
         assertEquals(expected, actual, 0.1);
@@ -104,10 +106,10 @@ public class AnimalTest {
         double expected = 50;
 
         for(int i = 0; i < 10; i++){
-            animalSerializer.saveAnimal(new Dog("name" + i, Gender.Male, animalSerializer));
+            animalSerializer.saveAnimal(new Dog("name" + i, Gender.Male));
         }
 
-        Animal dog = new Dog("name", Gender.Male, animalSerializer);
+        Animal dog = new Dog("name", Gender.Male);
         double actual = dog.calculatePrice();
 
         assertEquals(expected, actual, 0.1);
