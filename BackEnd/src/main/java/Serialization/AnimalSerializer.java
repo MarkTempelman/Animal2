@@ -15,15 +15,7 @@ public class AnimalSerializer implements IAnimalSerializer{
         if(f.exists()){
             animals.addAll(getAnimals());
         }
-        try{
-            FileOutputStream fileOutputStream = new FileOutputStream("animalData");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(animals);
-            objectOutputStream.close();
-            fileOutputStream.close();
-        } catch (IOException ioException){
-            ioException.printStackTrace();
-        }
+        saveAllAnimals(animals);
     }
 
     public void saveAllAnimals(ArrayList<Animal> animals){
